@@ -1,0 +1,15 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Models (generated AI checkpoints)
+models/*.pkl
+models/*.pickle
+
+# OS files
+Thumbs.db
+.DS_Store
