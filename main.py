@@ -22,7 +22,7 @@ from src import ai_trainer
 
 def draw_text(surface, text, size, x, y, color=config.WHITE, center=True):
     """Helper to draw text on surface."""
-    font = pygame.font.SysFont('Arial', size)
+    font = pygame.font.Font(None, size)
     img = font.render(text, True, color)
     rect = img.get_rect()
     if center:

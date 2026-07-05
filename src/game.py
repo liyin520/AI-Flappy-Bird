@@ -277,7 +277,7 @@ class FlappyBirdGame:
             self.bird.draw(surface)
 
         # Score
-        font = pygame.font.SysFont('Arial', 48)
+        font = pygame.font.Font(None, 48)
         score_surf = font.render(str(self.score), True, config.WHITE)
         score_rect = score_surf.get_rect(center=(config.WINDOW_WIDTH // 2, 50))
         # Shadow for readability
@@ -289,7 +289,7 @@ class FlappyBirdGame:
         # Debug overlay
         if show_debug and self.alive:
             inputs = self.get_inputs()
-            font_small = pygame.font.SysFont('Arial', 16)
+            font_small = pygame.font.Font('Arial', 16)
             labels = ['bird_y', 'velocity', 'pipe_dx', 'gap_y', 'gap_size', 'dy_to_gap']
             for i, (label, val) in enumerate(zip(labels, inputs)):
                 text = font_small.render(f'{label}: {val:.3f}', True, config.WHITE)
