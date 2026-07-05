@@ -8,8 +8,10 @@ Usage:
 
 import sys
 import pygame
+import os
 from src.game import FlappyBirdGame
 from src import config
+from src import ai_trainer
 
 
 def draw_text(surface, text, size, x, y, color=config.WHITE, center=True):
@@ -59,10 +61,10 @@ def show_menu(screen):
         # Menu options
         draw_text(screen, '[1]  手动模式 — 你自己玩', 36,
                   config.WINDOW_WIDTH // 2, 320, config.YELLOW)
-        draw_text(screen, '[2]  AI 训练模式 (未实现)', 36,
-                  config.WINDOW_WIDTH // 2, 370, config.GRAY)
-        draw_text(screen, '[3]  回放最佳 AI (未实现)', 36,
-                  config.WINDOW_WIDTH // 2, 420, config.GRAY)
+        draw_text(screen, '[2]  AI 训练模式', 36,
+                  config.WINDOW_WIDTH // 2, 370, config.YELLOW)
+        draw_text(screen, '[3]  回放最佳 AI', 36,
+                  config.WINDOW_WIDTH // 2, 420, config.YELLOW)
 
         draw_text(screen, '按 ESC 退出', 20,
                   config.WINDOW_WIDTH // 2, 500, config.WHITE)
@@ -132,18 +134,39 @@ def main():
     pygame.display.set_caption('AI Flappy Bird 🐦')
 
     if '--train' in args:
-        print('🚧 AI 训练模式 — Phase 2 实现')
-        # TODO: Phase 2 - AI training
-        pass
+        ai_trainer.train(screen)
     elif '--replay' in args:
-        print('🚧 回放模式 — Phase 3 实现')
-        # TODO: Phase 3 - Replay best AI
-        pass
+        genome = ai_trainer.load_genome('best_genome.pkl')
+        if genome is None:
+            print('[!] No saved model found. Train one first: python main.py --train')
+            pygame.quit()
+            return
+        neat_config = ai_trainer.load_neat_config()
+        if neat_config:
+            ai_trainer.replay_genome(screen, genome, neat_config, gen_label='Best AI')
     else:
         # Show menu
         mode = show_menu(screen)
         if mode == 'manual':
             run_manual(screen)
+        elif mode == 'train':
+            ai_trainer.train(screen)
+        elif mode == 'replay':
+            genome = ai_trainer.load_genome('best_genome.pkl')
+            if genome is None:
+                draw_text(screen, 'No saved model found!', 36,
+                          config.WINDOW_WIDTH // 2, config.WINDOW_HEIGHT // 2,
+                          config.RED)
+                draw_text(screen, 'Train one first: python main.py --train', 24,
+                          config.WINDOW_WIDTH // 2, config.WINDOW_HEIGHT // 2 + 50,
+                          config.WHITE)
+                pygame.display.flip()
+                pygame.time.wait(2000)
+            else:
+                neat_config = ai_trainer.load_neat_config()
+                if neat_config:
+                    ai_trainer.replay_genome(screen, genome, neat_config,
+                                             gen_label='Best AI')
 
     pygame.quit()
 
