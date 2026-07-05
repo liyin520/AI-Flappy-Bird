@@ -289,7 +289,7 @@ class FlappyBirdGame:
         # Debug overlay
         if show_debug and self.alive:
             inputs = self.get_inputs()
-            font_small = pygame.font.Font('Arial', 16)
+            font_small = pygame.font.Font(None, 16)
             labels = ['bird_y', 'velocity', 'pipe_dx', 'gap_y', 'gap_size', 'dy_to_gap']
             for i, (label, val) in enumerate(zip(labels, inputs)):
                 text = font_small.render(f'{label}: {val:.3f}', True, config.WHITE)

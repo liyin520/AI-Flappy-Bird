@@ -79,7 +79,7 @@ def replay_genome(screen, genome, neat_config, gen_label=None):
     net = neat.nn.FeedForwardNetwork.create(genome, neat_config)
     game = FlappyBirdGame()
     clock = pygame.time.Clock()
-    font = pygame.font.Font('Arial', 24)
+    font = pygame.font.Font(None, 24)
     max_replay_frames = 3000  # avoid hanging on a perfect bird
 
     while game.alive and game.frame_count < max_replay_frames:
@@ -160,8 +160,8 @@ def load_genome(filename='best_genome.pkl'):
 
 def _draw_info(screen, gen, total_gen, best_fit):
     """Draw a 'Training in progress' overlay."""
-    font = pygame.font.Font('Arial', 32)
-    font_small = pygame.font.Font('Arial', 22)
+    font = pygame.font.Font(None, 32)
+    font_small = pygame.font.Font(None, 22)
 
     screen.fill(config.BLUE_SKY)
 
@@ -178,7 +178,7 @@ def _draw_info(screen, gen, total_gen, best_fit):
     ]
 
     for text, size, color, x, y in lines:
-        f = pygame.font.Font('Arial', size)
+        f = pygame.font.Font(None, size)
         img = f.render(text, True, color)
         rect = img.get_rect(center=(x, y))
         screen.blit(img, rect)
@@ -228,8 +228,8 @@ def _show_fitness_chart(screen, history):
         return int(x), int(y)
 
     clock = pygame.time.Clock()
-    font = pygame.font.Font('Arial', 18)
-    font_title = pygame.font.Font('Arial', 28)
+    font = pygame.font.Font(None, 18)
+    font_title = pygame.font.Font(None, 28)
 
     waiting = True
     while waiting:
