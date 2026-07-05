@@ -151,28 +151,29 @@ def main():
         if neat_config:
             ai_trainer.replay_genome(screen, genome, neat_config, gen_label='Best AI')
     else:
-        # Show menu
-        mode = show_menu(screen)
-        if mode == 'manual':
-            run_manual(screen)
-        elif mode == 'train':
-            ai_trainer.train(screen)
-        elif mode == 'replay':
-            genome = ai_trainer.load_genome('best_genome.pkl')
-            if genome is None:
-                draw_text(screen, 'No saved model found!', 36,
-                          config.WINDOW_WIDTH // 2, config.WINDOW_HEIGHT // 2,
-                          config.RED)
-                draw_text(screen, 'Train one first: python main.py --train', 24,
-                          config.WINDOW_WIDTH // 2, config.WINDOW_HEIGHT // 2 + 50,
-                          config.WHITE)
-                pygame.display.flip()
-                pygame.time.wait(2000)
-            else:
-                neat_config = ai_trainer.load_neat_config()
-                if neat_config:
-                    ai_trainer.replay_genome(screen, genome, neat_config,
-                                             gen_label='Best AI')
+        # Loop: return to menu after each mode finishes
+        while True:
+            mode = show_menu(screen)
+            if mode == 'manual':
+                run_manual(screen)
+            elif mode == 'train':
+                ai_trainer.train(screen)
+            elif mode == 'replay':
+                genome = ai_trainer.load_genome('best_genome.pkl')
+                if genome is None:
+                    draw_text(screen, 'No saved model found!', 36,
+                              config.WINDOW_WIDTH // 2, config.WINDOW_HEIGHT // 2,
+                              config.RED)
+                    draw_text(screen, 'Train one first: [2] AI Training mode', 24,
+                              config.WINDOW_WIDTH // 2, config.WINDOW_HEIGHT // 2 + 50,
+                              config.WHITE)
+                    pygame.display.flip()
+                    pygame.time.wait(2000)
+                else:
+                    neat_config = ai_trainer.load_neat_config()
+                    if neat_config:
+                        ai_trainer.replay_genome(screen, genome, neat_config,
+                                                 gen_label='Best AI')
 
     pygame.quit()
 
