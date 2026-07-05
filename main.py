@@ -2,11 +2,17 @@
 
 Usage:
     python main.py            # Manual play
-    python main.py --train    # Train AI (Phase 2)
-    python main.py --replay   # Replay best AI (Phase 3)
+    python main.py --train    # Train AI
+    python main.py --replay   # Replay best AI
 """
 
 import sys
+import os
+
+# Fix GBK terminal encoding for Windows
+if sys.platform == 'win32' and sys.stdout.encoding and 'gb' in sys.stdout.encoding.lower():
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')  # type: ignore
+
 import pygame
 import os
 from src.game import FlappyBirdGame
